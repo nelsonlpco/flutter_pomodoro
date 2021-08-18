@@ -3,10 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_pomodoro/modules/timer/timer_controller.dart';
 import 'package:get/get.dart';
 
-class TimerView extends StatelessWidget {
-  final _controller = Get.find<TimerController>();
-
+class TimerView extends StatefulWidget {
   TimerView({Key? key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => TimerViewState();
+}
+
+class TimerViewState extends State<TimerView> {
+  final _controller = Get.find<TimerController>();
 
   @override
   Widget build(BuildContext context) {
@@ -24,13 +29,24 @@ class TimerView extends StatelessWidget {
           ),
           TextButton(
             onPressed: () {
-              // Get.toNamed(AppRoutes.TIMER_CONFIG);
-              _controller.increment();
+              _controller.startTimer();
             },
-            child: const Text("config "),
+            child: const Text("start"),
+          ),
+          TextButton(
+            onPressed: () {
+              _controller.stopTimer();
+            },
+            child: const Text("stop"),
           ),
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 }

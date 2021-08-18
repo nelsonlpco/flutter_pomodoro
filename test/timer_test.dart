@@ -18,12 +18,16 @@ void main() {
         ),
       );
 
-      expect(find.text("TIMER: 30:00"), findsOneWidget);
+      expect(find.text("start"), findsOneWidget);
+      expect(find.text("stop"), findsOneWidget);
 
-      await tester.tap(find.byType(TextButton));
-      await tester.pump();
+      expect(find.text("TIMER: 00:00"), findsOneWidget);
+      await tester.tap(find.text("start"));
+      await tester.pumpAndSettle(const Duration(seconds: 1));
 
-      expect(find.text("TIMER: 30:01"), findsOneWidget);
+      expect(find.text("TIMER: 29:59"), findsOneWidget);
+
+      await tester.tap(find.text("stop"));
     });
   });
 }

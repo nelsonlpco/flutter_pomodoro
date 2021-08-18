@@ -13,6 +13,7 @@ class TimerManager {
   late TimeManager _restTime;
   late TimeManager _currentTime;
   TimerStatus _status = TimerStatus.stoped;
+  Timer? _timer;
 
   TimerManager(this._workTime, this._restTime) {
     _currentTime = TimeManager(0, 0);
@@ -33,6 +34,9 @@ class TimerManager {
   }
 
   void stopTimer() {
+    if (_timer != null) {
+      _timer?.cancel();
+    }
     _status = TimerStatus.stoped;
     _currentTime = TimeManager(0, 0);
   }
@@ -50,12 +54,12 @@ class TimerManager {
     Timer.periodic(
       const Duration(seconds: 1),
       (timer) {
+        _timer = timer;
         if (_status == TimerStatus.stoped) {
           timer.cancel();
         }
-        _decrementTime();
-
         callback();
+        _decrementTime();
       },
     );
   }

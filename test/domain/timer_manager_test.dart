@@ -42,17 +42,13 @@ void main() {
     test('Should be start the timer with 3 secs to work and 2 sec to rest',
         () async {
       var callbackIsCalled = false;
-
       final timer = TimerManager(TimeManager(0, 3), TimeManager(0, 2));
 
       timer.startTimer(() {
         callbackIsCalled = true;
       });
 
-      await Future.delayed(const Duration(seconds: 3), () {});
-
-      expect(timer.status, TimerStatus.resting);
-      expect(timer.currentTime, "00:02");
+      await Future.delayed(const Duration(seconds: 1), () {});
 
       timer.stopTimer();
 
